@@ -96,6 +96,7 @@ def listing(request, year, month, day, post):
     }
 
     return render(request, template, data)
+
 def post_share(request, post_id):
     teams = Team.objects.all()
     post =  get_object_or_404(Post, id=post_id, status='published')

@@ -33,9 +33,18 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+<div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0&appId=2892710120976873&autoLogAppEvents=1" nonce="R7qUWPMW"></script>
+  <script>
+   function myFunction() {
+   var x = document.URL;
+   document.getElementById("quilt").src = 'https://www.facebook.com/plugins/share_button.php?href='+x+'&layout=button_count&size=large&mobile_iframe=true&width=83&height=28&appId';
+  }
+  </script>
+
 </head>
 
-<body>
+<body onload="myFunction()">
 
 
   <!-- ======= Property Search Section ======= -->

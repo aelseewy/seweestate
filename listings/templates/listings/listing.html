@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
+{% load social_share %}
+{% load embed_video_tags %}
+{% load crispy_forms_tags %}
 {% load static %}
-
+{% load humanize %}
 
 {% block title %}  | Listing  {% endblock %}
 
@@ -13,21 +16,21 @@
         <div class="row">
           <div class="col-md-12 col-lg-8">
             <div class="title-single-box">
-              <h1 class="title-single">304 Blaster Up</h1>
-              <span class="color-text-a">Chicago, IL 606543</span>
+              <h1 class="title-single">{{ post.address }}</h1>
+              <span class="color-text-a">{{ post.city }}, {{ post.location }}</span>
             </div>
           </div>
           <div class="col-md-12 col-lg-4">
             <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="index.html">Home</a>
+                  <a href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="property-grid.html">Properties</a>
+                  <a href="{% url 'listings' %}">Properties</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                  304 Blaster Up
+                  {{ post.address }}
                 </li>
               </ol>
             </nav>
@@ -42,15 +45,21 @@
         <div class="row">
           <div class="col-sm-12">
             <div id="property-single-carousel" class="owl-carousel owl-arrow gallery-property">
-              <div class="carousel-item-b">
-                <img src="assets/img/slide-2.jpg" alt="">
-              </div>
-              <div class="carousel-item-b">
-                <img src="assets/img/slide-3.jpg" alt="">
-              </div>
-              <div class="carousel-item-b">
-                <img src="assets/img/slide-1.jpg" alt="">
-              </div>
+              {% if post.post_photo_1 %}
+                <div class="carousel-item-b">
+                  <img src="{{ post.post_photo_1.url }}" alt="">
+                </div>
+              {% endif %}
+              {% if post.post_photo_2 %}
+                <div class="carousel-item-b">
+                  <img src="{{ post.post_photo_2.url }}" alt="">
+                </div>
+              {% endif %}
+              {% if post.post_photo_3 %}
+                <div class="carousel-item-b">
+                  <img src="{{ post.post_photo_3.url }}" alt="">
+                </div>
+              {% endif %}
             </div>
             <div class="row justify-content-between">
               <div class="col-md-5 col-lg-4">
@@ -60,7 +69,7 @@
                       <span class="ion-money">$</span>
                     </div>
                     <div class="card-title-c align-self-center">
-                      <h5 class="title-c">15000</h5>
+                      <h5 class="title-c">{{ post.price |intcomma }}</h5>
                     </div>
                   </div>
                 </div>
@@ -76,37 +85,37 @@
                     <ul class="list">
                       <li class="d-flex justify-content-between">
                         <strong>Property ID:</strong>
-                        <span>1134</span>
+                        <span>{{post.id}}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Location:</strong>
-                        <span>Chicago, IL 606543</span>
+                        <span>{{ post.city }}, {{ post.location }}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Property Type:</strong>
-                        <span>House</span>
+                        <span>{{ post.category }}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Status:</strong>
-                        <span>Sale</span>
+                        <span>{{ post.estate_type }}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Area:</strong>
-                        <span>340m
+                        <span>{{ post.sqmt }}m
                           <sup>2</sup>
                         </span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Beds:</strong>
-                        <span>4</span>
+                        <span>{{ post.bedrooms }}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Baths:</strong>
-                        <span>2</span>
+                        <span>{{ post.bathrooms }}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Garage:</strong>
-                        <span>1</span>
+                        <span>{{ post.garage }}</span>
                       </li>
                     </ul>
                   </div>
@@ -122,17 +131,50 @@
                 </div>
                 <div class="property-description">
                   <p class="description color-text-a">
-                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit
-                    neque, auctor sit amet
-                    aliquam vel, ullamcorper sit amet ligula. Cras ultricies ligula sed magna dictum porta.
-                    Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt
-                    nibh pulvinar quam id dui posuere blandit.
+                    {{ post.body |safe }}
                   </p>
                   <p class="description color-text-a no-margin">
-                    Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec rutrum congue leo eget
-                    malesuada. Quisque velit nisi,
-                    pretium ut lacinia in, elementum id enim. Donec sollicitudin molestie malesuada.
+                    {{ post.description |safe }}
                   </p>
+                </div>
+                <div class="socials-a">
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <i class="fa fa-dribbble" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="socials-a">
+                  <h3 class="h4 mb-3 mb-sm-0">Share this post</h3>
+                  <ul class="list-inline">
+                  
+                    <li class="list-inline-item"><a href="whatsapp://send?text=http://hanaaquilt.sewemall.com/" data-action="share/whatsapp/share">Share in Whatsapp</a></li>
+                    <li class="list-inline-item"><a class="social-link-share facebook" href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook-f mr-2"></i>Share</a></li>
+                    <li class="list-inline-item"><a class="social-link-share email" href="{% url "post_share" post.id %}"><i class="fab fa-email-f mr-2"></i>Share</a></li>
+                    <li class="list-inline-item"><iframe id="quilt" src="" width="83" height="28" style="border:none;overflow:hidden" scrolling="no"  frameborder="0" allowTransparency="true"></iframe></li>
+                  </ul>
                 </div>
                 <div class="row section-t3">
                   <div class="col-sm-12">
@@ -174,10 +216,10 @@
                 <iframe src="https://player.vimeo.com/video/73221098" width="100%" height="460" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
               </div>
               <div class="tab-pane fade" id="pills-plans" role="tabpanel" aria-labelledby="pills-plans-tab">
-                <img src="assets/img/plan2.jpg" alt="" class="img-fluid">
+                <img src="{% static 'assets/img/plan2.jpg' %}" alt="" class="img-fluid">
               </div>
               <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1ses-419!2sve!4v1510329142834" width="100%" height="460" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <iframe src="{{post.url_link}}" width="100%" height="460" frameborder="0" style="border:0" allowfullscreen></iframe>
               </div>
             </div>
           </div>
@@ -191,20 +233,18 @@
             </div>
             <div class="row">
               <div class="col-md-6 col-lg-4">
-                <img src="assets/img/agent-4.jpg" alt="" class="img-fluid">
+                <img src="{% static 'assets/img/agent-4.jpg' %}" alt="" class="img-fluid">
               </div>
               <div class="col-md-6 col-lg-4">
                 <div class="property-agent">
-                  <h4 class="title-agent">Anabella Geller</h4>
+                  <h4 class="title-agent">{{ team.first_name }} {{ team.last_name }}</h4>
                   <p class="color-text-a">
-                    Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet
-                    dui. Quisque velit nisi,
-                    pretium ut lacinia in, elementum id enim.
+                    {{ team.bio}}
                   </p>
                   <ul class="list-unstyled">
                     <li class="d-flex justify-content-between">
                       <strong>Phone:</strong>
-                      <span class="color-text-a">(222) 4568932</span>
+                      <span class="color-text-a">{{team.phone}}</span>
                     </li>
                     <li class="d-flex justify-content-between">
                       <strong>Mobile:</strong>
@@ -212,7 +252,7 @@
                     </li>
                     <li class="d-flex justify-content-between">
                       <strong>Email:</strong>
-                      <span class="color-text-a">annabella@example.com</span>
+                      <span class="color-text-a">{{team.email}}</span>
                     </li>
                     <li class="d-flex justify-content-between">
                       <strong>Skype:</strong>

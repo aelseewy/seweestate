@@ -47,6 +47,9 @@ INSTALLED_APPS = [
 
     # thirdparty app
 
+    'phonenumber_field',
+    'embed_video',
+    'django_social_share',
     'allauth',
     'allauth.account',
     'crispy_forms',
