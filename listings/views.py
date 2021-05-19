@@ -13,8 +13,16 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .modelchoices import location_choices
 from .forms import EmailPostForm
+from django.db.models import Q
 
 # Create your views here.
+
+def search(request):
+    query = request.GET.get('query', '')
+    listings = Post.published.filter(Q(address__icontains=query) | Q(body__icontains=query))
+
+    return render(request, 'listings/search.html', {'listings': listings, 'query': query})
+
 class PostDashboardView(LoginRequiredMixin, ListView):
     model = Contact
     context_object_name = 'post_list_dashboard'

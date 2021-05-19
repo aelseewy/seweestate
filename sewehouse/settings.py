@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
-
+    
     # thirdparty app
 
     'phonenumber_field',
@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'multiselectfield',
-
+    'django.contrib.sitemaps',
+    'django.contrib.postgres',
 ]
 
 AUTHENTICATION_BACKENDS = (

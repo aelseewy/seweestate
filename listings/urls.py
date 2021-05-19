@@ -12,6 +12,7 @@ urlpatterns = [
     path('tag/<slug:tag_slug>',views.listings, name='listings_by_tag'),
     path('<int:listing_id>', views.listing, name='listing'),
     path('<int:post_id>/share/', views.post_share, name='post_share'),
+    path('search', views.search, name='search'),
     #path('subscribe/', email_list_signup, name="subscribe"),
     #path('feed/',LatestPostsFeed(),name='post_feed'),
 ]

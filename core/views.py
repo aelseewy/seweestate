@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Team
+from listings.models import Post
 from django.contrib.auth.models import User
 # Create your views here.
 

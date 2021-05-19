@@ -11,6 +11,21 @@ bedroom_choices = {
   '10':10
   }
 
+type_choices = {
+  'All':'All',
+  'Rent':'Rent',
+  'Lease':'Lease',
+  }
+
+bathroom_choices = {
+  '1':1,
+  '2':2,
+  '3':3,
+  '4':4,
+  '5':5,
+  }
+
+
 price_choices = {
   '100000':'$100,000',
   '200000':'$200,000',

@@ -1,0 +1,131 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}  | Listings  {% endblock %}
+
+{% block content %}
+<section class="section-services section-t8">
+<main id="main">
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'listings' %}">Browse Listings</a>
+          </li>
+          <li class="breadcrumb-item active"> Search Results</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listings -->
+    <section class="property-grid grid">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            
+          </div>
+        {% for listing in listings %}
+          <div class="col-md-4">
+            <div class="card-box-a card-shadow">
+              <div class="img-box-a">
+                <img src="{% static 'assets/img/property-1.jpg' %}" alt="" class="img-a img-fluid">
+              </div>
+              <div class="card-overlay">
+                <div class="card-overlay-a-content">
+                  <div class="card-header-a">
+                    <h2 class="card-title-a">
+                      <a href="#">{{ listing.address }}
+                        <br /> {{ listing.city }} {{ listing.location }}</a>
+                    </h2>
+                  </div>
+                  <div class="card-body-a">
+                    <div class="price-box d-flex">
+                      <span class="price-a">{{ listing.estate_type }} | $ {{ listing.price |intcomma }}</span>
+                    </div>
+                    <a href="{{ listing.get_absolute_url }}" class="link-a">Click here to view
+                      <span class="ion-ios-arrow-forward"></span>
+                    </a>
+                  </div>
+                  <div class="card-footer-a">
+                    <ul class="card-info d-flex justify-content-around">
+                      <li>
+                        <h4 class="card-info-title">Area</h4>
+                        <span>{{listing.sqmt}}m
+                          <sup>2</sup>
+                        </span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">Beds</h4>
+                        <span>{{listing.bedrooms}}</span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">Baths</h4>
+                        <span>{{listing.bathrooms}}</span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">Garages</h4>
+                        <span>{{ listing.garage }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+          {% if listings.has_other_pages %}
+            <nav class="pagination-a">
+            {% if listings.has_previous %}
+              <ul class="pagination justify-content-end">
+                <li class="page-item">
+                  <a class="page-link" href="?page={{listings.previous_page_number}}" tabindex="-1">
+                    <span class="ion-ios-arrow-back"></span>
+                  </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" tabindex="-1">
+                    <span class="ion-ios-arrow-back"></span>
+                  </a>
+                </li>
+            {% endif %}
+            {% for i in listings.paginator.page_range %}
+              {% if listings.number == i %}
+                <li class="page-item active">
+                  <a class="page-link">{{i}}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{i}}">{{i}}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% if listings.has_next %}
+                <li class="page-item next">
+                  <a class="page-link" href="?page={{listings.next_page_number}}">
+                    <span class="ion-ios-arrow-forward"></span>
+                  </a>
+                </li>
+            {% endif %}
+              </ul>
+          {% endif %}
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Property Grid Single-->
+
+</main>
+</section>
+{% endblock %}
