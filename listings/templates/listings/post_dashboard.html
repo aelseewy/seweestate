@@ -25,18 +25,18 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">My Post</th>
-                        <th scope="col">Post Update</th>
-                        <th scope="col">Post Delete</th>
+                        <th scope="col">Post ID</th>
+                        <th scope="col">Post List</th>
+                        <th scope="col">Post Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% if object_list %}
+                    {% if post_list_dashboard %}
                         {% for post in post_list_dashboard %}
                             <tr>
-                                <td><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></td>
-                                <td><a href="{% url 'post-update' post.id %}" class="btn btn-secondary">Update</a></td>
-                                <td><a href="{% url 'post-delete' post.id %}" class="btn btn-danger">Delete</a></td>
+                                <td>{{ post.id }}</td>
+                                <td>{{ post.listing }}</td>
+                                <td><a href="{% url 'listing' post.listing_id %}" class="btn btn-danger">View List</a></td>
                             </tr>
 
                         {% endfor %}

@@ -78,11 +78,9 @@ def listings(request, tag_slug=None):
 
 
 
-def listing(request, year, month, day, post):
+def listing(request,listing_id):
     teams = Team.objects.all()
-    post = get_object_or_404(Post, slug=post, status='published',
-                             publish__year=year, publish__month=month,
-                             publish__day=day)
+    post = get_object_or_404(Post, pk=listing_id, status='published')
 
     template = 'listings/listing.html'
 
@@ -125,3 +123,4 @@ def post_share(request, post_id):
     }
     
     return render(request, template, context)
+

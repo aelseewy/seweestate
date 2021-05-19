@@ -7,7 +7,7 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from embed_video.fields import EmbedVideoField
 from core.models import Team
-from .modelchoices import features_choices, feature_choices, state_choices, city_choices,location_choices
+from .modelchoices import features_furnished_choices, feature_choices, state_choices, city_choices,location_choices
 from multiselectfield import MultiSelectField
 
 
@@ -56,7 +56,7 @@ class Post(models.Model):
     address = models.CharField(max_length=100)
     location = models.CharField(max_length=100, choices=location_choices)
     city = models.CharField(max_length=70, choices=city_choices)
-    feature_type = MultiSelectField(choices=features_choices)
+    feature_type = MultiSelectField(choices=features_furnished_choices)
     #category = models.CharField(max_length=250, default="Others")
     snippet = models.CharField(max_length=250, default="click to read the blog post ")
     price = models.IntegerField(blank=True , null=True)
@@ -72,7 +72,9 @@ class Post(models.Model):
     video_file = models.FileField(upload_to='videos/', blank=True, null=True)
     video = EmbedVideoField(blank=True, null=True)  # same like models.URLField()
     youtube_link = models.URLField(max_length=130, blank=True, null=True)
-    url_link = models.URLField(max_length=130, blank=True, null=True)
+    longtitude = models.DecimalField(decimal_places=3, max_digits=10, null=True, blank=True)
+    latitude = models.DecimalField(decimal_places=3, max_digits=10, null=True, blank=True)
+    url_link = models.URLField(max_length=280, blank=True, null=True)
     body = RichTextField(blank=True, null=True)
     description = RichTextField(blank=True, null=True)
     publish = models.DateTimeField(default=timezone.now)
@@ -87,10 +89,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('listing',
-                    args=[self.publish.year,
-                          self.publish.month,
-                          self.publish.day,
-                          self.slug])
+                    args=[self.pk])
     class Meta:
         ordering = ('-publish',)
 
